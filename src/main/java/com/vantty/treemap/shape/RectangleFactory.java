@@ -5,7 +5,6 @@ import com.vantty.treemap.ImageFrame;
 import java.awt.geom.Rectangle2D;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.math.RoundingMode;
 import java.util.LinkedList;
 
 public class RectangleFactory {
@@ -18,7 +17,15 @@ public class RectangleFactory {
         this.values = values;
     }
     
-    public Rectangle2D.Double buildFor(int position, OrientationStrategy orientation) {
+    public Rectangle2D.Double buildVertical(int position) {
+        return buildFor(position, new VerticalStrategy(values));
+    }
+    
+    public Rectangle2D.Double buildHorizontal(int position) {
+        return buildFor(position, new HorizontalStrategy());
+    }
+    
+    protected Rectangle2D.Double buildFor(int position, OrientationStrategy orientation) {
         return new Rectangle2D.Double(generateX(position, orientation), generateY(position, orientation), generateWidth(position, orientation),
                 orientation.generateHeight(position, generatePreviousHeight(position, orientation)));
     }
@@ -58,6 +65,10 @@ public class RectangleFactory {
     
     protected double getRatioForElements(int firstIndex, int secondIndex) {
         return values.get(firstIndex).divide(values.get(secondIndex), MathContext.DECIMAL64).doubleValue();
+    }
+    
+    public int size() {
+        return values.size();
     }
     
 }
