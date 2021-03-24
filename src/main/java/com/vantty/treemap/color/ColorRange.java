@@ -14,14 +14,12 @@ public class ColorRange {
         this.targetColor = targetColor;
     }
     
-    
-    
     public Color get(int i) {
         return new Color(getRed(i), getGreen(i), getBlue(i));
     }
     
     private int getRed(int i) {
-        return sourceColor.r() + restrictToRange(getIncrementalStep(targetColor.r(), sourceColor.r()) * i);
+        return restrictToRange(sourceColor.r() + getIncrementalStep(targetColor.r(), sourceColor.r()) * i);
     }
     
     private int getGreen(int i) {
