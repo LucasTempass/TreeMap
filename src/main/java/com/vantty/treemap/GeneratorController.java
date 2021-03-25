@@ -32,7 +32,7 @@ public class GeneratorController {
     public void outputStream(@PathVariable(name = "size") int size, HttpServletResponse response) {
         if (size >= 4080)
             throw new ResponseStatusException(HttpStatus.PRECONDITION_FAILED, "Max size is 4080");
-        ImageFrame frame = new ImageFrame(size);
+        ImageFrame frame = new ImageFrame(size /20, size /20, size, size);
         LinkedList<BigDecimal> values = sequenceService.formatValues(SequenceService.getDefaultValues());
         BufferedImage bufferedImage = new DataSetImage(frame, new RectangleFactory(values, frame), randomForRange(values.size())).generateBufferedImage();
         try {

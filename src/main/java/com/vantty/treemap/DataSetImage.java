@@ -7,6 +7,8 @@ import com.vantty.treemap.shape.RectangleFactory;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 
+import static java.awt.RenderingHints.KEY_TEXT_LCD_CONTRAST;
+
 public class DataSetImage {
     
     private final ImageFrame frame;
@@ -20,8 +22,22 @@ public class DataSetImage {
     }
     
     public BufferedImage generateBufferedImage() {
-        BufferedImage bufferedImage = new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_INT_RGB);
-        paint(bufferedImage.createGraphics());
+        BufferedImage bufferedImage = new BufferedImage(frame.width() + frame.marginX() * 2, frame.height() + (frame.marginY() * 5),
+                BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = bufferedImage.createGraphics();
+        graphics.setColor(Color.WHITE);
+        graphics.setPaint(new GradientPaint(0, 0, new Color(240, 240, 240), frame.width() + frame.marginX() * 2, frame.height() + (frame.marginY() * 5),
+                new Color(255, 255, 255)));
+        graphics.fillRect(0, 0, frame.width() + frame.marginX() * 2, frame.height() + (frame.marginY() * 5));
+        graphics.setColor(Color.BLACK);
+        graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+       // graphics.setFont(new Font("Open Sans Condensed", Font.BOLD, (int) (frame.marginY() * 1.5)));
+        graphics.setFont(new Font("Oswald", Font.BOLD, (int) (frame.marginY() * 1.5)));
+        int width = graphics.getFontMetrics().stringWidth("A01110");
+        int bottomBorderHeight = frame.marginY() * 4;
+        graphics.drawString("A01110", frame.width() - width + ((int) (frame.marginX() * 0.2)),
+                frame.height() + frame.marginY() + (bottomBorderHeight / 2) + ((int) (graphics.getFont().getSize() * 0.45)));
+        paint(graphics);
         return bufferedImage;
         
     }
@@ -34,6 +50,7 @@ public class DataSetImage {
                 graphics2D.fill(factory.buildHorizontal(index));
             else graphics2D.fill(factory.buildVertical(index));
         }
+        graphics2D.setBackground(Color.WHITE);
         
     }
     
