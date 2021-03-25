@@ -5,10 +5,10 @@ import java.awt.*;
 public class ColorRange {
     
     private double size;
-    private RGB sourceColor;
-    private RGB targetColor;
+    private Color sourceColor;
+    private Color targetColor;
     
-    public ColorRange(double size, RGB sourceColor, RGB targetColor) {
+    public ColorRange(double size, Color sourceColor, Color targetColor) {
         this.size = size;
         this.sourceColor = sourceColor;
         this.targetColor = targetColor;
@@ -19,15 +19,15 @@ public class ColorRange {
     }
     
     private int getRed(int i) {
-        return restrictToRange(sourceColor.r() + getIncrementalStep(targetColor.r(), sourceColor.r()) * i);
+        return restrictToRange(sourceColor.getRed() + getIncrementalStep(targetColor.getRed(), sourceColor.getRed()) * i);
     }
     
     private int getGreen(int i) {
-        return restrictToRange(sourceColor.g() + getIncrementalStep(targetColor.g(), sourceColor.g()) * i);
+        return restrictToRange(sourceColor.getGreen() + getIncrementalStep(targetColor.getGreen(), sourceColor.getGreen()) * i);
     }
     
     private int getBlue(int i) {
-        return restrictToRange(sourceColor.b() + getIncrementalStep(targetColor.b(), sourceColor.b()) * i);
+        return restrictToRange(sourceColor.getBlue() + getIncrementalStep(targetColor.getBlue(), sourceColor.getBlue()) * i);
     }
     
     private double getIncrementalStep(int target, int source) {
