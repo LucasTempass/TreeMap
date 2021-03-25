@@ -1,19 +1,31 @@
 package com.vantty.treemap.image;
 
-import com.vantty.treemap.data.OEIService;
+import com.vantty.treemap.color.ColorRangeFactory;
+import com.vantty.treemap.data.SequenceService;
+import com.vantty.treemap.shape.RectangleFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
+
+import static com.vantty.treemap.data.SequenceService.getDefaultValues;
 
 @RestController
 @RequestMapping(path = "/generate")
 public class GeneratorController {
     
-    private OEIService service;
+    private SequenceService sequenceService;
+    private ImageService imageService;
     
-    public GeneratorController(OEIService service) {
-        this.service = service;
+    public GeneratorController(SequenceService sequenceService, ImageService imageService) {
+        this.sequenceService = sequenceService;
+        this.imageService = imageService;
     }
     
     @RequestMapping(path = "/custom")
@@ -24,7 +36,24 @@ public class GeneratorController {
     
     @RequestMapping(path = "/{sequenceId}")
     List<BigDecimal> sequenceWithLimit(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit) {
-        return service.fetch(sequence, limit);
+        return null;
+    }
+    
+    @RequestMapping(path = "/")
+    void reu(HttpServletResponse response) {
+        var values = sequenceService.formatValues(getDefaultValues());
+        PolaroidImageFrame frame = new PolaroidImageFrame(1080);
+        var image = imageService.generatePolaroidImage(new RectangleFactory(values, frame), frame, ColorRangeFactory.randomForRange(values.size()), "A0010");
+        try {
+            response.setContentType(MediaType.IMAGE_PNG_VALUE);
+            response.setHeader("Content-Disposition", "inline; filename=\"treemap.png\"");
+            ImageIO.write(image, "png", response.getOutputStream());
+        }
+        catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR
+            );
+        }
+        
     }
     
     @RequestMapping(path = "/{color}/{sequenceId}")

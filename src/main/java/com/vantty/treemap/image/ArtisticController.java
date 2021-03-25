@@ -12,8 +12,8 @@ import java.util.List;
 @RequestMapping(path = "/generate/artistic")
 public class ArtisticController {
     
-    SequenceService sequenceService;
-    ImageService imageService;
+    private SequenceService sequenceService;
+    private ImageService imageService;
     
     public ArtisticController(SequenceService sequenceService, ImageService imageService) {
         this.sequenceService = sequenceService;
@@ -30,7 +30,8 @@ public class ArtisticController {
     void sequenceWithLimit(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit) {}
     
     @RequestMapping(path = "/{color}/{sequenceId}")
-    void sequenceWithColor(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit, @RequestParam(name = "color", defaultValue = "random") String color) {
+    void sequenceWithColor(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit,
+            @RequestParam(name = "color", defaultValue = "random") String color) {
         
     }
     

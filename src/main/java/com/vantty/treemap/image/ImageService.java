@@ -18,19 +18,12 @@ public class ImageService {
     public static final Color DARKER_WHITE = new Color(240, 240, 240);
     public static final String FONT_NAME = "Oswald";
     
-    public BufferedImage generateImage(RectangleFactory factory, ImageFrame frame, ColorRange colorRange) {
-        var image = new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_INT_RGB);
-        drawImage(image.createGraphics(), factory, new ColorRangeIterator(colorRange));
-        return image;
-        
-    }
-    
-    public BufferedImage generateImage(Rquest request, RectangleFactory factory) {
-        var image = new BufferedImage(request.width(), request.height(), BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics = bufferedImage.createGraphics();
+    public BufferedImage generatePolaroidImage(RectangleFactory factory, PolaroidImageFrame frame, ColorRange colorRange, String title) {
+        BufferedImage image = new BufferedImage(frame.frameWidth(), frame.frameHeight(), BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics = image.createGraphics();
         drawBackground(graphics, frame);
         drawTitle(graphics, frame, title);
-        drawImage(graphics, factory, new ColorRangeIterator(new ColorRange(request.sequenceSize(), request.sourceColor(), request.targetColor())));
+        drawImage(graphics, factory, new ColorRangeIterator(colorRange));
         return image;
         
     }
