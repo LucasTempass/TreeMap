@@ -24,4 +24,14 @@ public class RGB {
         return b;
     }
     
+    public static RGB fromHexString(String targetColor) {
+        if (!targetColor.startsWith("#") || targetColor.length() != 7)
+            throw new UnsupportedOperationException("Invalid hex representation");
+        int red = Integer.valueOf(targetColor.substring(1, 3), 16);
+        int green = Integer.valueOf(targetColor.substring(3, 5), 16);
+        int blue = Integer.valueOf(targetColor.substring(5, 7), 16);
+        return new RGB(red, green, blue);
+        
+    }
+    
 }

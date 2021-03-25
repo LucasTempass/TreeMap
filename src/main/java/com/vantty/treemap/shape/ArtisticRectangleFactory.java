@@ -1,6 +1,6 @@
 package com.vantty.treemap.shape;
 
-import com.vantty.treemap.ImageFrame;
+import com.vantty.treemap.image.ImageFrame;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
