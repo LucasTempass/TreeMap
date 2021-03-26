@@ -2,6 +2,7 @@ package com.vantty.treemap.image;
 
 import com.vantty.treemap.color.ColorRange;
 import com.vantty.treemap.color.ColorRangeIterator;
+import com.vantty.treemap.image.core.ImageFrame;
 import com.vantty.treemap.image.instant.InstantFrame;
 import com.vantty.treemap.shape.RectangleFactory;
 import org.springframework.stereotype.Service;

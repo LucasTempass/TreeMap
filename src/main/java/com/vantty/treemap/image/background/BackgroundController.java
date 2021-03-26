@@ -3,7 +3,7 @@ package com.vantty.treemap.image.background;
 import com.vantty.treemap.color.ColorRange;
 import com.vantty.treemap.color.ColorRangeFactory;
 import com.vantty.treemap.data.SequenceService;
-import com.vantty.treemap.image.ImageController;
+import com.vantty.treemap.image.core.ImageController;
 import com.vantty.treemap.image.ImageService;
 import com.vantty.treemap.image.instant.InstantFrame;
 import com.vantty.treemap.shape.RectangleFactory;
@@ -37,7 +37,7 @@ public class BackgroundController implements ImageController<BackgroundRequest> 
     }
     
     private BufferedImage getBufferedImage(List<BigDecimal> sequence, BackgroundRequest request, ColorRange colorRange) {
-        return imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), colorRange);
+        return imageService.makeFramelessImage(new RectangleFactory(sequence, request.frame()), request.frame(), colorRange);
     }
     
     @RequestMapping(path = "/demo")
@@ -60,37 +60,37 @@ public class BackgroundController implements ImageController<BackgroundRequest> 
     
     @Override
     public void custom(List<BigDecimal> sequence, BackgroundRequest request, HttpServletResponse response) {
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, randomForRange(sequence.size())));
+        dispatch(request, response, getBufferedImage(sequence, request, randomForRange(sequence.size())));
     }
     
     @Override
     public void customWithColorParams(List<BigDecimal> sequence, Color colorA, Color colorB, BackgroundRequest request, HttpServletResponse response) {
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, customForRange(sequence.size(), colorA, colorB)));
+        dispatch(request, response, getBufferedImage(sequence, request, customForRange(sequence.size(), colorA, colorB)));
     }
     
     @Override
     public void customWithColor(List<BigDecimal> sequence, Integer limit, String color, BackgroundRequest request, HttpServletResponse response) {
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, from(sequence.size(), color)));
+        dispatch(request, response, getBufferedImage(sequence, request, from(sequence.size(), color)));
     }
     
     @Override
     public void oeis(String sequenceId, Integer limit, BackgroundRequest request, HttpServletResponse response) {
         List<BigDecimal> sequence = sequenceService.getSequenceById(sequenceId);
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, randomForRange(sequence.size())));
+        dispatch(request, response, getBufferedImage(sequence, request, randomForRange(sequence.size())));
         
     }
     
     @Override
     public void oeisWithColorParams(String sequenceId, Color colorA, Color colorB, BackgroundRequest request, HttpServletResponse response) {
         var sequence = sequenceService.getSequenceById(sequenceId);
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, customForRange(sequence.size(), colorA, colorB)));
+        dispatch(request, response, getBufferedImage(sequence, request, customForRange(sequence.size(), colorA, colorB)));
         
     }
     
     @Override
     public void oeisWithColor(String sequenceId, Integer limit, String color, BackgroundRequest request, HttpServletResponse response) {
         var sequence = sequenceService.getSequenceById(sequenceId);
-        dispatch(request.getFileFormat(), request.getTitle(), response, getBufferedImage(sequence, request, from(sequence.size(), color)));
+        dispatch(request, response, getBufferedImage(sequence, request, from(sequence.size(), color)));
         
     }
     

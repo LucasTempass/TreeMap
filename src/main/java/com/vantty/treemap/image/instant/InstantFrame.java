@@ -1,9 +1,8 @@
 package com.vantty.treemap.image.instant;
 
-import com.vantty.treemap.image.ImageFrame;
+import com.vantty.treemap.image.core.ImageFrame;
 
 import java.awt.*;
-import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 
 import static java.awt.Color.BLACK;

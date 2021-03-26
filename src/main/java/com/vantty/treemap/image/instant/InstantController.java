@@ -2,7 +2,7 @@ package com.vantty.treemap.image.instant;
 
 import com.vantty.treemap.color.ColorRange;
 import com.vantty.treemap.data.SequenceService;
-import com.vantty.treemap.image.ImageController;
+import com.vantty.treemap.image.core.ImageController;
 import com.vantty.treemap.image.ImageService;
 import com.vantty.treemap.shape.RectangleFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,21 +37,21 @@ public class InstantController implements ImageController<InstantFrameRequest> {
     @Override
     public void custom(List<BigDecimal> sequence, InstantFrameRequest request, HttpServletResponse response) {
         var image = buildImage(sequence, request, randomForRange(sequence.size()));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     
     @Override
     public void customWithColorParams(List<BigDecimal> sequence, Color colorA, Color colorB, InstantFrameRequest request, HttpServletResponse response) {
         var image = buildImage(sequence, request, customForRange(sequence.size(), colorA, colorB));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     
     @Override
     public void customWithColor(List<BigDecimal> sequence, Integer limit, String color, InstantFrameRequest request, HttpServletResponse response) {
         var image = buildImage(sequence, request, from(sequence.size(), color));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     
@@ -59,7 +59,7 @@ public class InstantController implements ImageController<InstantFrameRequest> {
     public void oeis(String sequenceId, Integer limit, InstantFrameRequest request, HttpServletResponse response) {
         var sequence = sequenceService.getSequenceById(sequenceId);
         var image = buildImage(sequence, request, randomForRange(sequence.size()));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     
@@ -67,7 +67,7 @@ public class InstantController implements ImageController<InstantFrameRequest> {
     public void oeisWithColorParams(String sequenceId, Color colorA, Color colorB, InstantFrameRequest request, HttpServletResponse response) {
         var sequence = sequenceService.getSequenceById(sequenceId);
         var image = buildImage(sequence, request, customForRange(sequence.size(), colorA, colorB));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     
@@ -75,7 +75,7 @@ public class InstantController implements ImageController<InstantFrameRequest> {
     public void oeisWithColor(String sequenceId, Integer limit, String color, InstantFrameRequest request, HttpServletResponse response) {
         var sequence = sequenceService.getSequenceById(sequenceId);
         var image = buildImage(sequence, request, from(sequence.size(), color));
-        dispatch(request.format(), request.title(), response, image);
+        dispatch(request, response, image);
         
     }
     

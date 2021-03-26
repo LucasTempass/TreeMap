@@ -1,29 +1,24 @@
 package com.vantty.treemap.image.instant;
 
-import com.vantty.treemap.image.SupportedImageFormat;
+import com.vantty.treemap.image.core.FileRequest;
+import com.vantty.treemap.image.core.SupportedImageFormat;
 
-public class InstantFrameRequest {
+public class InstantFrameRequest extends FileRequest {
     
     private final int size;
-    private final String title;
-    private final SupportedImageFormat format;
     
     public InstantFrameRequest(int size, String title, SupportedImageFormat format) {
+        super(title, format);
         this.size = size;
-        this.title = title;
-        this.format = format;
     }
     
-    public SupportedImageFormat format() {
-        return format;
+    public InstantFrameRequest() {
+        super();
+        this.size = 1080;
     }
     
     public int size() {
         return size;
-    }
-    
-    public String title() {
-        return title;
     }
     
 }

@@ -1,35 +1,24 @@
 package com.vantty.treemap.image.background;
 
-import com.vantty.treemap.image.ImageFrame;
-import com.vantty.treemap.image.SupportedImageFormat;
+import com.vantty.treemap.image.core.FileRequest;
+import com.vantty.treemap.image.core.ImageFrame;
+import com.vantty.treemap.image.core.SupportedImageFormat;
 
-public class BackgroundRequest {
+public class BackgroundRequest extends FileRequest {
     
-    private final String title;
     private final ImageFrame frame;
-    private final SupportedImageFormat fileFormat;
     
     public BackgroundRequest(SupportedImageFormat fileFormat, String fileName, ImageFrame frame) {
-        this.fileFormat = fileFormat;
-        this.title = fileName;
+        super(fileName, fileFormat);
         this.frame = frame;
     }
     
     public BackgroundRequest() {
-        this.fileFormat = SupportedImageFormat.PNG;
-        this.title = "image";
+        super();
         this.frame = new ImageFrame(300);
     }
     
-    public SupportedImageFormat getFileFormat() {
-        return fileFormat;
-    }
-    
-    public String getTitle() {
-        return title;
-    }
-    
-    public ImageFrame getFrame() {
+    public ImageFrame frame() {
         return frame;
     }
     

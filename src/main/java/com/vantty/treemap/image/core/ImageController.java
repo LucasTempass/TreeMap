@@ -1,4 +1,4 @@
-package com.vantty.treemap.image;
+package com.vantty.treemap.image.core;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -15,7 +15,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
-public interface ImageController <R> {
+public interface ImageController <R extends FileRequest> {
     
     @RequestMapping(path = "/custom")
     void custom(@RequestBody List<BigDecimal> sequence, @RequestBody R request, HttpServletResponse response);
@@ -40,10 +40,11 @@ public interface ImageController <R> {
     void oeisWithColor(@PathVariable(name = "sequenceId") String sequenceId, @RequestParam(name = "limit", defaultValue = "10") Integer limit,
             @RequestParam(name = "color", defaultValue = "random") String color, @RequestBody R request, HttpServletResponse response);
     
-    default void dispatch(SupportedImageFormat format, String title, HttpServletResponse response, BufferedImage image) {
+    default void dispatch(FileRequest request, HttpServletResponse response, BufferedImage image) {
         try {
+            SupportedImageFormat format = request.format();
             response.setContentType(format.type());
-            response.setHeader("Content-Disposition", "inline; filename=\"" + title + format.suffix() + "\"");
+            response.setHeader("Content-Disposition", "inline; filename=\"" + request.title() + format.suffix() + "\"");
             ImageIO.write(image, format.subtype(), response.getOutputStream());
         }
         catch (IOException e) {
