@@ -12,6 +12,13 @@ import java.awt.image.BufferedImage;
 @Service
 public class ImageService {
     
+    public BufferedImage makeFramelessImage(RectangleFactory factory, ImageFrame frame, ColorRange colorRange) {
+        BufferedImage image = new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_INT_RGB);
+        drawImage(image.createGraphics(), factory, new ColorRangeIterator(colorRange));
+        return image;
+        
+    }
+    
     public BufferedImage makeInstantImage(RectangleFactory factory, InstantFrame frame, ColorRange colorRange) {
         drawImage(frame.graphics(), factory, new ColorRangeIterator(colorRange));
         return frame.asBufferedImage();

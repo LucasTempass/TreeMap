@@ -6,20 +6,23 @@ import com.vantty.treemap.image.instant.InstantFrame;
 import com.vantty.treemap.shape.RectangleFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
+import java.awt.*;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
+import static com.vantty.treemap.color.ColorRangeFactory.*;
 import static com.vantty.treemap.data.SequenceService.getDefaultValues;
 
 @RestController
 @RequestMapping(path = "/generate")
-public class GeneratorController {
+public class GeneratorController implements ImageController<TreeMapRequest> {
     
     private SequenceService sequenceService;
     private ImageService imageService;
@@ -29,21 +32,8 @@ public class GeneratorController {
         this.imageService = imageService;
     }
     
-    @RequestMapping(path = "/custom")
-    void sequenceWithLimit(@RequestBody List<BigDecimal> sequence) {}
-    
-    @RequestMapping(path = "/{color}/custom")
-    void customSequenceWithColor(@RequestBody List<BigDecimal> sequence, @RequestParam(name = "color", defaultValue = "random") String color) {
-    
-    }
-    
-    @RequestMapping(path = "/{sequenceId}")
-    List<BigDecimal> sequenceWithLimit(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit, @RequestBody TreeMapRequest request) {
-        return null;
-    }
-    
     @RequestMapping(path = "/")
-    void reu(HttpServletResponse response) {
+    void demo(HttpServletResponse response) {
         var values = sequenceService.formatValues(getDefaultValues());
         String title = "A000010";
         InstantFrame frame = new InstantFrame(1080, title);
@@ -60,10 +50,39 @@ public class GeneratorController {
         
     }
     
-    @RequestMapping(path = "/{color}/{sequenceId}")
-    void sequenceWithColor(@PathVariable(name = "sequenceId") String sequence, @RequestParam(name = "limit", defaultValue = "10") Integer limit, @RequestParam(name = "color", defaultValue = "random") String color) {
+    @Override
+    public void custom(List<BigDecimal> sequence, TreeMapRequest request, HttpServletResponse response) {
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), randomForRange(sequence.size()));
+    }
+    
+    @Override
+    public void customWithColorParams(List<BigDecimal> sequence, Color colorA, Color colorB, TreeMapRequest request, HttpServletResponse response) {
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), customForRange(sequence.size(), colorA, colorB));
+    }
+    
+    @Override
+    public void customWithColor(List<BigDecimal> sequence, Integer limit, String color, TreeMapRequest request, HttpServletResponse response) {
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), ColorRangeFactory.from(sequence.size(), color));
+    }
+    
+    @Override
+    public void oeis(String sequenceId, Integer limit, TreeMapRequest request, HttpServletResponse response) {
+        var sequence = sequenceService.getSequenceById(sequenceId);
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), randomForRange(sequence.size()));
         
     }
     
- 
+    @Override
+    public void oeisWithColorParams(String sequenceId, Color colorA, Color colorB, TreeMapRequest request, HttpServletResponse response) {
+        var sequence = sequenceService.getSequenceById(sequenceId);
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), customForRange(sequence.size(), colorA, colorB));
+    }
+    
+    @Override
+    public void oeisWithColor(String sequenceId, Integer limit, String color, TreeMapRequest request, HttpServletResponse response) {
+        var sequence = sequenceService.getSequenceById(sequenceId);
+        var image = imageService.makeFramelessImage(new RectangleFactory(sequence, request.getFrame()), request.getFrame(), from(sequence.size(), color));
+    
+    }
+    
 }
