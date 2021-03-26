@@ -9,8 +9,8 @@ import java.util.List;
 
 public class RectangleFactory {
     
-    protected final List<BigDecimal> values;
     protected final ImageFrame imageFrame;
+    protected final List<BigDecimal> values;
     private final OrientationStrategy horizontal = new HorizontalStrategy();
     private final OrientationStrategy vertical = new VerticalStrategy();
     

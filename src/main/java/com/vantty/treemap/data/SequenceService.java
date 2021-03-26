@@ -1,6 +1,7 @@
 package com.vantty.treemap.data;
 
 import com.vantty.treemap.data.oeis.OeisService;
+import com.vantty.treemap.data.oeis.SequenceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -12,19 +13,19 @@ import java.util.stream.Collectors;
 @Service
 public class SequenceService {
     
-    private OeisService oeisService;
+    private final OeisService oeisService;
     
     public SequenceService(OeisService oeisService) {
         this.oeisService = oeisService;
     }
     
-    public List<BigDecimal> getSequenceById(String id) {
+    public List<BigDecimal> getSequenceById(String id) throws SequenceNotFoundException {
         return formatValues(oeisService.getSequenceById(id));
     }
     
     public LinkedList<BigDecimal> formatValues(List<BigDecimal> doubles) {
         doubles.sort(Collections.reverseOrder());
-        LinkedList<BigDecimal> values = new LinkedList<BigDecimal>();
+        LinkedList<BigDecimal> values = new LinkedList<>();
         values.add(doubles.get(doubles.size() - 1));
         for (int e = doubles.size() - 2; e >= 0; e--) {
             if (values.getFirst().equals(doubles.get(e)))

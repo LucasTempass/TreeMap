@@ -65,8 +65,11 @@ public class InstantController {
     }
     
     @RequestMapping(path = "/{sequenceId}/{color}", params = {"colorA", "colorB"})
-    void sequenceWithColor(@RequestBody List<BigDecimal> sequence, @RequestParam Color colorA, @RequestParam Color colorB,
+    void sequenceWithColor(@RequestBody String sequenceId, @RequestParam Color colorA, @RequestParam Color colorB,
             @RequestBody InstantFrameRequest request) {
+        var instant = buildFromRequest(request);
+        var sequence = sequenceService.getSequenceById(sequenceId);
+        var image = imageService.makeInstantImage(new RectangleFactory(sequence, instant.picture()), instant, customForRange(sequence.size(), colorA, colorB));
         
     }
     
