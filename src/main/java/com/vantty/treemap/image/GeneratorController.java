@@ -42,9 +42,9 @@ public class GeneratorController {
     @RequestMapping(path = "/")
     void reu(HttpServletResponse response) {
         var values = sequenceService.formatValues(getDefaultValues());
-        InstantImage frame = new InstantImage(1080);
         String title = "A000010";
-        var image = imageService.generatePolaroidImage(new RectangleFactory(values, frame.picture()), frame, ColorRangeFactory.randomForRange(values.size()), title);
+        InstantImage frame = new InstantImage(1080, title);
+        var image = imageService.generatePolaroidImage(new RectangleFactory(values, frame.picture()), frame, ColorRangeFactory.randomForRange(values.size()));
         try {
             response.setContentType(MediaType.IMAGE_PNG_VALUE);
             response.setHeader("Content-Disposition", "inline; filename=\"" + title + ".png\"");
