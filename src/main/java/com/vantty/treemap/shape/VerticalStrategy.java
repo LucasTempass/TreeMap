@@ -6,18 +6,14 @@ import java.util.List;
 
 public class VerticalStrategy implements OrientationStrategy {
     
-    private final List<BigDecimal> values;
-    
-    public VerticalStrategy(List<BigDecimal> values) {
-        this.values = values;
-    }
+    public VerticalStrategy() { }
     
     @Override
-    public double generateHeight(int position, double previousHeight) {
-        return getRatio(position) * previousHeight;
+    public double generateHeight(int position, double previousHeight, List<BigDecimal> values) {
+        return getRatio(position, values) * previousHeight;
     }
     
-    private double getRatio(int position) {
+    private double getRatio(int position, List<BigDecimal> values) {
         return values.get(position).divide(values.get(position - 2), MathContext.DECIMAL64).doubleValue();
     }
     

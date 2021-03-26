@@ -9,8 +9,10 @@ import java.util.List;
 
 public class RectangleFactory {
     
+    protected final List<BigDecimal> values;
     protected final ImageFrame imageFrame;
-    protected List<BigDecimal> values;
+    private final OrientationStrategy horizontal = new HorizontalStrategy();
+    private final OrientationStrategy vertical = new VerticalStrategy();
     
     public RectangleFactory(List<BigDecimal> values, ImageFrame frame) {
         this.imageFrame = frame;
@@ -18,16 +20,16 @@ public class RectangleFactory {
     }
     
     public Rectangle2D.Double buildVertical(int position) {
-        return buildFor(position, new VerticalStrategy(values));
+        return buildFor(position, vertical);
     }
     
     public Rectangle2D.Double buildHorizontal(int position) {
-        return buildFor(position, new HorizontalStrategy());
+        return buildFor(position, horizontal);
     }
     
     protected Rectangle2D.Double buildFor(int position, OrientationStrategy orientation) {
         return new Rectangle2D.Double(generateX(position, orientation), generateY(position, orientation), generateWidth(position, orientation),
-                orientation.generateHeight(position, generatePreviousHeight(position, orientation)));
+                orientation.generateHeight(position, generatePreviousHeight(position, orientation), values));
     }
     
     protected double generateWidth(int position, OrientationStrategy orientation) {
@@ -55,7 +57,7 @@ public class RectangleFactory {
     protected double generateY(int position, OrientationStrategy orientation) {
         if (position == 0)
             return imageFrame.marginY();
-        return imageFrame.marginY() + generateBaseElementHeight() - orientation.generateHeight(position, generatePreviousHeight(position, orientation));
+        return imageFrame.marginY() + generateBaseElementHeight() - orientation.generateHeight(position, generatePreviousHeight(position, orientation), values);
         
     }
     
