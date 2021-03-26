@@ -11,7 +11,17 @@ public enum SupportedImageFormat {
         this.mediaType = mediaType;
     }
     
-    public MediaType getMediaType() {
-        return mediaType;
+    public String type() {
+        return mediaType.getType();
     }
+    
+    public String suffix() {
+        return "." + mediaType.getSubtype();
+    }
+    public String subtype() {
+        return mediaType.getSubtype();
+    }
+    
+    
+    
 }

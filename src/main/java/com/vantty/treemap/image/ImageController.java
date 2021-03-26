@@ -1,12 +1,17 @@
 package com.vantty.treemap.image;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
+import javax.imageio.ImageIO;
 import javax.servlet.http.HttpServletResponse;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -34,5 +39,17 @@ public interface ImageController <R> {
     @RequestMapping(path = "/{sequenceId}/{color}")
     void oeisWithColor(@PathVariable(name = "sequenceId") String sequenceId, @RequestParam(name = "limit", defaultValue = "10") Integer limit,
             @RequestParam(name = "color", defaultValue = "random") String color, @RequestBody R request, HttpServletResponse response);
+    
+    default void dispatch(SupportedImageFormat format, String title, HttpServletResponse response, BufferedImage image) {
+        try {
+            response.setContentType(format.type());
+            response.setHeader("Content-Disposition", "inline; filename=\"" + title + format.suffix() + "\"");
+            ImageIO.write(image, format.subtype(), response.getOutputStream());
+        }
+        catch (IOException e) {
+            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        
+    }
     
 }
