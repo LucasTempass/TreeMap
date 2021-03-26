@@ -28,8 +28,10 @@ public class SequenceService {
     }
     
     public static List<BigDecimal> getDefaultValues() {
+        //12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0
         //1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6, 8, 8, 16, 6, 18, 8, 12, 10, 22, 8, 20, 12, 18, 12, 28
-        return List.of(12.0, 11.0, 10.0, 9.0, 8.0, 7.0, 6.0, 5.0, 4.0, 3.0, 2.0, 1.0).stream().map(BigDecimal::new).collect(Collectors.toList());
+        //0, 1, 36, 1225, 41616, 1413721, 48024900, 1631432881
+        return List.of(	1, 1, 2, 2, 4, 2, 6, 4, 6, 4, 10, 4, 12, 6, 8, 8, 16, 6, 18, 8, 12, 10, 22, 8, 20, 12, 18, 12, 28).stream().map(BigDecimal::new).collect(Collectors.toList());
     }
     
 }

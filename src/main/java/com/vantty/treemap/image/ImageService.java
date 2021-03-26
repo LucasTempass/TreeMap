@@ -18,8 +18,8 @@ public class ImageService {
     public static final Color DARKER_WHITE = new Color(240, 240, 240);
     public static final String FONT_NAME = "Oswald";
     
-    public BufferedImage generatePolaroidImage(RectangleFactory factory, PolaroidImageFrame frame, ColorRange colorRange, String title) {
-        BufferedImage image = new BufferedImage(frame.frameWidth(), frame.frameHeight(), BufferedImage.TYPE_INT_RGB);
+    public BufferedImage generatePolaroidImage(RectangleFactory factory, InstantImage frame, ColorRange colorRange, String title) {
+        BufferedImage image = new BufferedImage(frame.width(), frame.height(), BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
         drawBackground(graphics, frame);
         drawTitle(graphics, frame, title);
@@ -28,10 +28,10 @@ public class ImageService {
         
     }
     
-    private void drawBackground(Graphics2D graphics, PolaroidImageFrame frame) {
+    private void drawBackground(Graphics2D graphics, InstantImage frame) {
         graphics.setColor(WHITE);
-        graphics.setPaint(new GradientPaint(0, 0, DARKER_WHITE, frame.frameWidth(), frame.frameHeight(), WHITE));
-        graphics.fillRect(0, 0, frame.frameWidth(), frame.frameHeight());
+        graphics.setPaint(new GradientPaint(0, 0, DARKER_WHITE, frame.width(), frame.height(), WHITE));
+        graphics.fillRect(0, 0, frame.width(), frame.height());
         
     }
     
@@ -39,7 +39,7 @@ public class ImageService {
         return (int) (size * proportion);
     }
     
-    private void drawTitle(Graphics2D graphics, PolaroidImageFrame frame, String title) {
+    private void drawTitle(Graphics2D graphics, InstantImage frame, String title) {
         graphics.setColor(BLACK);
         graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
         // graphics.setFont(new Font("Open Sans Condensed", Font.BOLD, (int) (frame.marginY() * 1.5)));
@@ -49,12 +49,12 @@ public class ImageService {
         
     }
     
-    private int titleY(PolaroidImageFrame frame, int titleHeight) {
-        return frame.height() + frame.marginY() + (frame.getBottomBorderHeight() / 2) + getFontOffset(titleHeight, 0.45);
+    private int titleY(InstantImage frame, int titleHeight) {
+        return frame.pictureHeight() + frame.marginY() + (frame.bottomBorderHeight() / 2) + getFontOffset(titleHeight, 0.45);
     }
     
-    private int titleX(PolaroidImageFrame frame, int titleWidth) {
-        return frame.width() - titleWidth + getFontOffset(frame.marginX(), 0.2);
+    private int titleX(InstantImage frame, int titleWidth) {
+        return frame.width() - frame.marginX() - titleWidth - (frame.marginX() / 2);
     }
     
     private void drawImage(Graphics2D graphics2D, RectangleFactory factory, ColorRangeIterator colorRangeIterator) {

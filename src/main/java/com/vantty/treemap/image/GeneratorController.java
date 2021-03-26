@@ -42,11 +42,12 @@ public class GeneratorController {
     @RequestMapping(path = "/")
     void reu(HttpServletResponse response) {
         var values = sequenceService.formatValues(getDefaultValues());
-        PolaroidImageFrame frame = new PolaroidImageFrame(1080);
-        var image = imageService.generatePolaroidImage(new RectangleFactory(values, frame), frame, ColorRangeFactory.randomForRange(values.size()), "A0010");
+        InstantImage frame = new InstantImage(1080);
+        String title = "A000010";
+        var image = imageService.generatePolaroidImage(new RectangleFactory(values, frame.picture()), frame, ColorRangeFactory.randomForRange(values.size()), title);
         try {
             response.setContentType(MediaType.IMAGE_PNG_VALUE);
-            response.setHeader("Content-Disposition", "inline; filename=\"treemap.png\"");
+            response.setHeader("Content-Disposition", "inline; filename=\"" + title + ".png\"");
             ImageIO.write(image, "png", response.getOutputStream());
         }
         catch (IOException e) {
