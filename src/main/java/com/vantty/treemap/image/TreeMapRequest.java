@@ -2,19 +2,19 @@ package com.vantty.treemap.image;
 
 public class TreeMapRequest {
     
-    private final String fileName;
+    private final String title;
     private final ImageFrame frame;
     private final SupportedImageFormat fileFormat;
     
     public TreeMapRequest(SupportedImageFormat fileFormat, String fileName, ImageFrame frame) {
         this.fileFormat = fileFormat;
-        this.fileName = fileName;
+        this.title = fileName;
         this.frame = frame;
     }
     
     public TreeMapRequest() {
         this.fileFormat = SupportedImageFormat.PNG;
-        this.fileName = "image";
+        this.title = "image";
         this.frame = new ImageFrame(300);
     }
     
@@ -22,8 +22,8 @@ public class TreeMapRequest {
         return fileFormat;
     }
     
-    public String getFileName() {
-        return fileName;
+    public String getTitle() {
+        return title;
     }
     
     public ImageFrame getFrame() {

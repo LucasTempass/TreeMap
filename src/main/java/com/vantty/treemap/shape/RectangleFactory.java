@@ -5,14 +5,14 @@ import com.vantty.treemap.image.ImageFrame;
 import java.awt.geom.Rectangle2D;
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.LinkedList;
+import java.util.List;
 
 public class RectangleFactory {
     
     protected final ImageFrame imageFrame;
-    protected LinkedList<BigDecimal> values;
+    protected List<BigDecimal> values;
     
-    public RectangleFactory(LinkedList<BigDecimal> values, ImageFrame frame) {
+    public RectangleFactory(List<BigDecimal> values, ImageFrame frame) {
         this.imageFrame = frame;
         this.values = values;
     }

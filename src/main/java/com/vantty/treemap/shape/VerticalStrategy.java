@@ -2,13 +2,13 @@ package com.vantty.treemap.shape;
 
 import java.math.BigDecimal;
 import java.math.MathContext;
-import java.util.LinkedList;
+import java.util.List;
 
 public class VerticalStrategy implements OrientationStrategy {
     
-    private LinkedList<BigDecimal> values;
+    private final List<BigDecimal> values;
     
-    public VerticalStrategy(LinkedList<BigDecimal> values) {
+    public VerticalStrategy(List<BigDecimal> values) {
         this.values = values;
     }
     

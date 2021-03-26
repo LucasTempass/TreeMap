@@ -1,4 +1,6 @@
-package com.vantty.treemap.image;
+package com.vantty.treemap.image.instant;
+
+import com.vantty.treemap.image.ImageFrame;
 
 import java.awt.*;
 import java.awt.geom.Rectangle2D;
@@ -8,7 +10,10 @@ import static java.awt.Color.BLACK;
 import static java.awt.Color.WHITE;
 import static java.awt.Font.BOLD;
 
-public class InstantImage {
+public class InstantFrame {
+    
+    public static final String FONT_NAME = "Oswald";
+    public static final Color DARKER_WHITE = new Color(240, 240, 240);
     
     private final int width;
     private final int height;
@@ -18,10 +23,8 @@ public class InstantImage {
     private Graphics2D graphics;
     private final ImageFrame picture;
     private final BufferedImage image;
-    public static final String FONT_NAME = "Oswald";
-    public static final Color DARKER_WHITE = new Color(240, 240, 240);
-    
-    public InstantImage(int width, String title) {
+
+    public InstantFrame(int width, String title) {
         this.width = width;
         this.marginX = width / 18;
         this.marginY = width / 20;

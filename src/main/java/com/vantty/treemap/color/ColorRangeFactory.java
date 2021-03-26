@@ -34,4 +34,8 @@ public class ColorRangeFactory {
         return new Color(r + random.nextInt(255 - r), g + random.nextInt(255 - g), b + random.nextInt(255 - b));
     }
     
+    public static ColorRange from(String color) {
+        return null;
+    }
+    
 }
