@@ -1,4 +1,4 @@
-package com.vantty.treemap;
+package com.vantty.treemap.image.core;
 
 public class ImageFrame {
     
